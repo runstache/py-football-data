@@ -4,6 +4,7 @@ Football Data Models.
 
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column
 from sqlalchemy.types import BigInteger, String, Integer, Boolean, REAL
+from typing import Optional
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
@@ -23,7 +24,7 @@ class Player(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     url: Mapped[str] = mapped_column(String(255))
     name: Mapped[str] = mapped_column(String(500))
-    position_id: Mapped[int] = mapped_column(Boolean, default=False)
+    position_id: Mapped[Optional[int]] = mapped_column(Boolean, default=False)
 
 
 class Position(Base):
@@ -89,11 +90,11 @@ class Statistic(Base):
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     statistic_code_id: Mapped[int] = mapped_column(BigInteger)
-    player_id: Mapped[int] = mapped_column(BigInteger)
-    team_id: Mapped[int]
     schedule_id: Mapped[int] = mapped_column(BigInteger)
     value: Mapped[float] = mapped_column(REAL)
     category_id: Mapped[int]
+    player_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=None)
+    team_id: Mapped[Optional[int]] = mapped_column(Integer, default=None)
 
 
 class Team(Base):
@@ -119,3 +120,41 @@ class TypeCode(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     code: Mapped[str] = mapped_column(String(10))
     description: Mapped[str] = mapped_column(String(50))
+
+
+class TeamStaff(Base):
+    """
+    Data Model for the Team Staff relationship.
+    """
+
+    __tablename__ = 'team_staff'
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    player_id: Mapped[int] = mapped_column(BigInteger)
+    team_id: Mapped[int] = mapped_column(Integer)
+    year_value: Mapped[int] = mapped_column(Integer)
+
+
+class League(Base):
+    """
+    Data Model for the League.
+    """
+
+    __tablename__ = 'leages'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    code: Mapped[str] = mapped_column(String(10))
+    description: Mapped[str] = mapped_column(String(100))
+
+
+class TeamLeague(Base):
+    """
+    Data Model for the League and Team Relationship table.
+    """
+
+    __tablename__ = 'team_leagues'
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    team_id: Mapped[int] = mapped_column(Integer)
+    league_id: Mapped[int] = mapped_column(Integer)
+    year_value: Mapped[int] = mapped_column(Integer)
