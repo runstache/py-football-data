@@ -2,11 +2,12 @@
 Tests for the Statistics Repository.
 """
 
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from models import Statistic
 from repositories import StatisticRepository
-from assertpy import assert_that
 
 
 def create_maker() -> sessionmaker:

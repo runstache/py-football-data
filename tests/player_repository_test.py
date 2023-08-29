@@ -2,11 +2,12 @@
 Tests for the Player Repository.
 """
 
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from repositories import PlayerRepository
+
 from models import Player, Position
-from assertpy import assert_that
+from repositories import PlayerRepository
 
 
 def create_maker():

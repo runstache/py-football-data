@@ -2,11 +2,13 @@
 Tests for the Team Repository.
 """
 
-from sqlalchemy.orm import sessionmaker
+from assertpy import assert_that
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 from models import Team
 from repositories import TeamRepository
-from assertpy import assert_that
+
 
 def create_maker() -> sessionmaker:
     """
@@ -16,6 +18,7 @@ def create_maker() -> sessionmaker:
     engine = create_engine('sqlite://')
     Team.metadata.create_all(bind=engine)
     return sessionmaker(bind=engine, expire_on_commit=False)
+
 
 def test_get_team():
     """
@@ -30,6 +33,7 @@ def test_get_team():
     result = repo.get_team(id=1)
 
     assert_that(result).is_equal_to(team)
+
 
 def test_get_team_by_code():
     """
@@ -46,6 +50,7 @@ def test_get_team_by_code():
 
     assert_that(result).is_equal_to(team)
 
+
 def test_get_team_by_url():
     """
     Tests retrieving a Team by URL
@@ -60,6 +65,7 @@ def test_get_team_by_url():
     result = repo.get_team(url='www.google.com')
 
     assert_that(result).is_equal_to(team)
+
 
 def test_get_team_not_exists():
     """
@@ -76,6 +82,7 @@ def test_get_team_not_exists():
     result = repo.get_team(id=3)
     assert_that(result).is_none()
 
+
 def test_team_exists():
     """
     Tests a Team exists.
@@ -90,6 +97,7 @@ def test_team_exists():
     result = repo.team_exists(team)
 
     assert_that(result).is_true()
+
 
 def test_team_not_exist():
     """
@@ -106,6 +114,7 @@ def test_team_not_exist():
 
     assert_that(result).is_false()
 
+
 def test_get_teams():
     """
     Tests retrieving all Teams.
@@ -121,4 +130,3 @@ def test_get_teams():
 
     result = repo.get_teams()
     assert_that(result).is_not_empty().contains_only(team, team2)
-

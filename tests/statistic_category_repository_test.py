@@ -2,11 +2,12 @@
 Tests for the Statistic Category Code Repository.
 """
 
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from models import StatisticCategory
 from repositories import StatisticCategoryRepository
-from assertpy import assert_that
 
 
 def create_maker():

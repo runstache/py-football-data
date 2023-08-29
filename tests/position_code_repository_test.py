@@ -2,11 +2,12 @@
 Repository Tests for Position Codes.
 """
 
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from repositories import PositionCodeRepository
+
 from models import Position
-from assertpy import assert_that
+from repositories import PositionCodeRepository
 
 
 def create_maker() -> sessionmaker:

@@ -2,11 +2,13 @@
 Tests for the Type Code Repository.
 """
 
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from models import TypeCode
 from repositories import TypeCodeRepository
-from assertpy import assert_that
+
 
 def create_maker() -> sessionmaker:
     """
@@ -15,6 +17,7 @@ def create_maker() -> sessionmaker:
     engine = create_engine('sqlite://')
     TypeCode.metadata.create_all(bind=engine)
     return sessionmaker(bind=engine, expire_on_commit=False)
+
 
 def test_type_code_exists():
     """
@@ -28,6 +31,7 @@ def test_type_code_exists():
     result = repo.type_code_exists(code)
     assert_that(result).is_true()
 
+
 def test_type_code_not_exists():
     """
     Tests the Type Code not exists.
@@ -40,6 +44,7 @@ def test_type_code_not_exists():
 
     result = repo.type_code_exists(code2)
     assert_that(result).is_false()
+
 
 def test_get_type_code():
     """
@@ -55,6 +60,7 @@ def test_get_type_code():
     result = repo.get_type_code(id=1)
     assert_that(result).is_equal_to(code)
 
+
 def test_get_type_code_by_code():
     """
     Tests retrieving Type code by Code.
@@ -69,6 +75,7 @@ def test_get_type_code_by_code():
     result = repo.get_type_code(code='TST')
     assert_that(result).is_equal_to(code)
 
+
 def test_get_type_code_not_exist():
     """
     Tests retrieving a Type Code that does not exist.
@@ -82,6 +89,7 @@ def test_get_type_code_not_exist():
 
     result = repo.get_type_code(id=3)
     assert_that(result).is_none()
+
 
 def test_get_type_codes():
     """

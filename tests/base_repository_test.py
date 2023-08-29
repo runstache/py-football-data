@@ -2,13 +2,13 @@
 Tests for the Base Repository.
 """
 
-from sqlalchemy.orm import sessionmaker
+from assertpy import assert_that
 from sqlalchemy import create_engine, select
+from sqlalchemy.orm import sessionmaker
+
 from models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, Statistic, \
     StatisticCategory, Schedule, League
-
 from repositories import BaseRepository
-from assertpy import assert_that
 
 
 def create_maker() -> sessionmaker:

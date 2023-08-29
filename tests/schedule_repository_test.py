@@ -2,11 +2,12 @@
 Tests for the Schedule Repository.
 """
 
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from models import Schedule
 from repositories import ScheduleRepository
-from assertpy import assert_that
 
 
 def create_maker() -> sessionmaker:
