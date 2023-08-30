@@ -82,6 +82,20 @@ def test_get_team_not_exists():
     result = repo.get_team(id=3)
     assert_that(result).is_none()
 
+def test_get_team_no_args():
+    """
+    Tests retrieving a Team without Args.
+    """
+    maker = create_maker()
+    team = Team(id=1, url='www.google.com', code='KC', name='Kansas City Chiefs')
+    team2 = Team(id=2, url='www.team.com', code='LAR', name='Los Angeles Rams')
+    repo = TeamRepository(maker)
+    repo.save(team)
+    repo.save(team2)
+
+    result = repo.get_team()
+    assert_that(result).is_none()
+
 
 def test_team_exists():
     """

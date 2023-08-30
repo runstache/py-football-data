@@ -10,7 +10,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
             python-version: '3.11'
-            cache: 'pip'
-      - run: pip install pipenv --user
-      - run: pipenv sync --system --dev
-      - run: pytest
+      - name: Install PipEnv
+        run: pip install pipenv --user
+      - name: Install Dependencies
+        run: pipenv sync --system --dev
+      - name: Run Pytest with Coverage
+        run: pytest --cov-report term --cov=football_data tests/

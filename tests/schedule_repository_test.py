@@ -21,7 +21,8 @@ def test_schedule_exists():
     Tests if a schedule exits.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -35,9 +36,11 @@ def test_schedule_does_not_exist():
     Tests if a schedule does not exit.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
-    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=3, game_id=665567,
+    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=3,
+                         game_id=665567,
                          url='www.google.com', type_id=1, is_home=False)
 
     repo = ScheduleRepository(maker)
@@ -52,7 +55,8 @@ def test_get_schedule():
     Tests retrieving a Schedule.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
 
     repo = ScheduleRepository(maker)
@@ -67,7 +71,8 @@ def test_get_schedule_not_exists():
     Tests retrieving a schedule that does not exist.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -81,7 +86,8 @@ def test_get_schedules():
     Tests retrieving all schedules.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -95,7 +101,8 @@ def test_get_schedules_by_team():
     Tests retrieving a Teams schedules.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -108,9 +115,11 @@ def test_get_schedules_by_year_and_week():
     Tests retrieving Schedules by Week and Year
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
-    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4, game_id=665567,
+    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4,
+                         game_id=665567,
                          url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -125,9 +134,11 @@ def test_get_schedules_by_team_year_week():
     Tests retrieving a Teams Schedule by week and year.
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
-    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4, game_id=665567,
+    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4,
+                         game_id=665567,
                          url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -143,11 +154,14 @@ def test_get_schedules_by_team_year():
     """
 
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
-    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4, game_id=665567,
+    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4,
+                         game_id=665567,
                          url='www.google.com', type_id=1, is_home=True)
-    schedule3 = Schedule(id=3, team_id=2, opponent_id=1, year_value=2021, week_number=4, game_id=665568,
+    schedule3 = Schedule(id=3, team_id=2, opponent_id=1, year_value=2021, week_number=4,
+                         game_id=665568,
                          url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -164,11 +178,14 @@ def test_get_schedules_by_year():
     :return:
     """
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
-    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4, game_id=665567,
+    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4,
+                         game_id=665567,
                          url='www.google.com', type_id=1, is_home=True)
-    schedule3 = Schedule(id=3, team_id=2, opponent_id=1, year_value=2021, week_number=4, game_id=665568,
+    schedule3 = Schedule(id=3, team_id=2, opponent_id=1, year_value=2021, week_number=4,
+                         game_id=665568,
                          url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)
@@ -186,11 +203,14 @@ def test_get_schedule_by_week():
     """
 
     maker = create_maker()
-    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3, game_id=665566,
+    schedule = Schedule(id=1, team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
                         url='www.google.com', type_id=1, is_home=True)
-    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4, game_id=665567,
+    schedule2 = Schedule(id=2, team_id=2, opponent_id=1, year_value=2020, week_number=4,
+                         game_id=665567,
                          url='www.google.com', type_id=1, is_home=True)
-    schedule3 = Schedule(id=3, team_id=2, opponent_id=1, year_value=2021, week_number=4, game_id=665568,
+    schedule3 = Schedule(id=3, team_id=2, opponent_id=1, year_value=2021, week_number=4,
+                         game_id=665568,
                          url='www.google.com', type_id=1, is_home=True)
     repo = ScheduleRepository(maker)
     repo.save(schedule)

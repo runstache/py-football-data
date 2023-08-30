@@ -58,6 +58,19 @@ def test_get_statistic_category_not_exist():
     assert_that(result).is_none()
 
 
+def test_get_statistic_category_no_args():
+    """
+    Tests retrieving a statistic category without args.
+    """
+    maker = create_maker()
+    code = StatisticCategory(id=1, code='O', description='Offense')
+    repo = StatisticCategoryRepository(maker)
+    repo.save(code)
+
+    result = repo.get_statistic_category()
+    assert_that(result).is_none()
+
+
 def test_statistic_category_exists():
     """
     Tests a statistic category exists.

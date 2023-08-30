@@ -140,7 +140,8 @@ def test_get_statistics_by_player_team_and_schedule():
     Tests retrieving the statistics by Player, Team, and Schedule.
     """
     maker = create_maker()
-    stat = Statistic(id=1, statistic_code_id=1, team_id=1, player_id=1, schedule_id=1, value=20, category_id=1)
+    stat = Statistic(id=1, statistic_code_id=1, team_id=1, player_id=1, schedule_id=1, value=20,
+                     category_id=1)
     stat2 = Statistic(id=2, statistic_code_id=1, team_id=2, schedule_id=1, value=20, category_id=1)
     repo = StatisticRepository(maker)
     repo.save(stat)
@@ -155,7 +156,8 @@ def test_get_statistics_by_player_team():
     Tests retrieving statistics by player and team
     """
     maker = create_maker()
-    stat = Statistic(id=1, statistic_code_id=1, player_id=1, team_id=1, schedule_id=1, value=20, category_id=1)
+    stat = Statistic(id=1, statistic_code_id=1, player_id=1, team_id=1, schedule_id=1, value=20,
+                     category_id=1)
     stat2 = Statistic(id=2, statistic_code_id=1, team_id=2, schedule_id=1, value=20, category_id=1)
     repo = StatisticRepository(maker)
     repo.save(stat)

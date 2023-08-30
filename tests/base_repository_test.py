@@ -6,9 +6,10 @@ from assertpy import assert_that
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 
-from models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, Statistic, \
+from models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, \
+    Statistic, \
     StatisticCategory, Schedule, League
-from repositories import BaseRepository
+from repositories import BaseRepository, SQLAlchemyError
 
 
 def create_maker() -> sessionmaker:
@@ -68,3 +69,28 @@ def test_save_all():
 
     type_result = session.execute(select(TypeCode).where(TypeCode.code == 'tst')).first()
     assert_that(type_result).is_not_empty().contains(code)
+
+
+def test_save_exceptions():
+    """
+    Tests an exception is thrown.
+    """
+
+    engine = create_engine('sqlite://')
+    maker = sessionmaker(bind=engine, expire_on_commit=False)
+    repo = BaseRepository(maker)
+    player = Player(id=1, url='www.google.com', name='Jim Smith')
+
+    assert_that(repo.save).raises(SQLAlchemyError).when_called_with(player)
+
+
+def test_save_all_exceptions():
+    """
+    Tests exception is thrown on Save All.
+    """
+    engine = create_engine('sqlite://')
+    maker = sessionmaker(bind=engine, expire_on_commit=False)
+    repo = BaseRepository(maker)
+    player = Player(id=1, url='www.google.com', name='Jim Smith')
+
+    assert_that(repo.save_all).raises(SQLAlchemyError).when_called_with([player])

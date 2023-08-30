@@ -2,11 +2,13 @@
 Data Model Repositories for saving to the Database.
 """
 
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import or_
-from models import Base, Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, Statistic, \
+
+from models import Base, Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, \
+    Statistic, \
     StatisticCategory, Schedule, League
 
 
@@ -89,17 +91,16 @@ class PlayerRepository(BaseRepository):
         :keyword id: ID Value
         :return: Player or None
         """
-        id_value = kwargs.get('id', 0)
-        url = kwargs.get('url')
-        stmt = None
-        if id_value > 0:
-            stmt = select(Player).where(Player.id == id_value)
-        else:
-            if url:
-                stmt = select(Player).where(Player.url == url)
+
+        conditions = []
+        if 'url' in kwargs:
+            conditions = [(Player.url == kwargs['url'])]
+
+        if 'id' in kwargs:
+            conditions = [(Player.id == int(kwargs['id']))]
 
         with self.maker() as session:
-            return session.scalars(stmt).first()
+            return session.scalars(select(Player).where(*conditions)).first()
 
     def get_players(self, **kwargs) -> list[Player]:
         """
@@ -108,18 +109,20 @@ class PlayerRepository(BaseRepository):
         :keyword position_code: Position Code
         :return: List of Players
         """
-        session = self.maker()
+
         position_code = kwargs.get('position_code')
         position_id = kwargs.get('position_id', 0)
 
         with self.maker() as session:
             if position_code:
-                position = session.scalars(select(Position).where(Position.code == position_code)).first()
+                position = session.scalars(
+                    select(Position).where(Position.code == position_code)).first()
                 if position:
                     position_id = position.id
 
             if position_id:
-                result = session.scalars(select(Player).where(Player.position_id == position_id)).all()
+                result = session.scalars(
+                    select(Player).where(Player.position_id == position_id)).all()
                 return result if result else []
             else:
                 return list(session.scalars(select(Player)).all())
@@ -156,20 +159,18 @@ class PositionCodeRepository(BaseRepository):
         :return: Position Code
         """
 
-        id_value = kwargs.get('id', 0)
-        code = kwargs.get('code')
-        stmt = None
+        conditions = []
+
+        if 'code' in kwargs:
+            conditions = [(Position.code == kwargs['code'])]
 
         if 'id' in kwargs:
-            stmt = select(Position).where(Position.id == int(kwargs['id']))
-        else:
-            if 'code' in kwargs:
-                stmt = select(Position).where(Position.code == kwargs['code'])
-            else:
-                return None
+            conditions = [(Position.id == int(kwargs['id']))]
 
-        with self.maker() as session:
-            return session.scalars(stmt).first()
+        if conditions:
+            with self.maker() as session:
+                return session.scalars(select(Position).where(*conditions)).first()
+        return None
 
     def get_position_codes(self) -> list[Position]:
         """
@@ -258,7 +259,8 @@ class StatisticCategoryRepository(BaseRepository):
         :return: bool
         """
         with self.maker() as session:
-            result = session.scalars(select(StatisticCategory).where(StatisticCategory.code == category.code)).first()
+            result = session.scalars(
+                select(StatisticCategory).where(StatisticCategory.code == category.code)).first()
             return result is not None
 
     def get_statistic_categories(self) -> list[StatisticCategory]:
@@ -277,15 +279,15 @@ class StatisticCategoryRepository(BaseRepository):
         :return: Statistic Category
         """
         criteria = []
-        stmt = None
-        if 'id' in kwargs:
-            criteria.append((StatisticCategory.id == int(kwargs['id'])))
         if 'code' in kwargs:
-            criteria.append((StatisticCategory.code == kwargs['code']))
+            criteria = [(StatisticCategory.code == kwargs['code'])]
+        if 'id' in kwargs:
+            criteria = [(StatisticCategory.id == int(kwargs['id']))]
 
         if criteria:
             with self.maker() as session:
-                return session.scalars(select(StatisticCategory).where(or_(False, * criteria))).first()
+                return session.scalars(
+                    select(StatisticCategory).where(or_(False, *criteria))).first()
         return None
 
 
@@ -396,12 +398,13 @@ class TeamRepository(BaseRepository):
         """
 
         criteria = []
-        if 'id' in kwargs:
-            criteria.append((Team.id == kwargs['id']))
+
         if 'code' in kwargs:
-            criteria.append((Team.code == kwargs['code']))
+            criteria = [(Team.code == kwargs['code'])]
         if 'url' in kwargs:
-            criteria.append((Team.url == kwargs['url']))
+            criteria = [(Team.url == kwargs['url'])]
+        if 'id' in kwargs:
+            criteria = [(Team.id == kwargs['id'])]
 
         if criteria:
             with self.maker() as session:
@@ -441,13 +444,13 @@ class TypeCodeRepository(BaseRepository):
 
         criteria = []
         if 'id' in kwargs:
-            criteria.append((TypeCode.id == kwargs['id']))
+            criteria = [(TypeCode.id == kwargs['id'])]
         if 'code' in kwargs:
-            criteria.append((TypeCode.code == kwargs['code']))
+            criteria = [(TypeCode.code == kwargs['code'])]
 
         if criteria:
             with self.maker() as session:
-                return session.scalars(select(TypeCode).where(or_(False, * criteria))).first()
+                return session.scalars(select(TypeCode).where(or_(False, *criteria))).first()
         return None
 
     def get_type_codes(self) -> list[TypeCode]:
@@ -477,7 +480,14 @@ class TeamStaffRepository(BaseRepository):
         :param staff: Team Staff Entry
         :return: Bool
         """
-        return False
+        conditions = [
+            (TeamStaff.team_id == staff.team_id),
+            (TeamStaff.player_id == staff.player_id),
+            (TeamStaff.year_value == staff.year_value)
+        ]
+        with self.maker() as session:
+            result = session.scalars(select(TeamStaff).where(*conditions)).first()
+            return result is not None
 
     def get_team_staff_entries(self, **kwargs) -> list[TeamStaff]:
         """
@@ -486,7 +496,18 @@ class TeamStaffRepository(BaseRepository):
         :keyword player_id: Player id value
         :return: List of TeamStaff items.
         """
-        return []
+
+        conditions = []
+        if 'team_id' in kwargs:
+            conditions.append((TeamStaff.team_id == int(kwargs['team_id'])))
+
+        if 'player_id' in kwargs:
+            conditions.append((TeamStaff.player_id) == int(kwargs['player_id']))
+
+        with self.maker() as session:
+            if conditions:
+                return list(session.scalars(select(TeamStaff).where(*conditions)).all())
+            return list(session.scalars(select(TeamStaff)).all())
 
     def get_team_staff_entry(self, id_value: int) -> TeamStaff | None:
         """
@@ -495,7 +516,8 @@ class TeamStaffRepository(BaseRepository):
         :return: Team Staff of None
         """
 
-        return None
+        with self.maker() as session:
+            return session.scalars(select(TeamStaff).where(TeamStaff.id == id_value)).first()
 
 
 class LeagueRepository(BaseRepository):
@@ -516,7 +538,9 @@ class LeagueRepository(BaseRepository):
         :param league: League
         :return: Bool
         """
-        return False
+        with self.maker() as session:
+            result = session.scalars(select(League).where(League.code == league.code)).first()
+            return result is not None
 
     def get_league(self, **kwargs) -> League | None:
         """
@@ -525,6 +549,17 @@ class LeagueRepository(BaseRepository):
         :keyword code: Code value
         :return: League or None
         """
+
+        conditions = []
+        if 'id' in kwargs:
+            conditions = [(League.id == int(kwargs['id']))]
+
+        if 'code' in kwargs:
+            conditions = [(League.code == kwargs['code'])]
+
+        if conditions:
+            with self.maker() as session:
+                return session.scalars(select(League).where(*conditions)).first()
         return None
 
     def get_leagues(self) -> list[League]:
@@ -533,7 +568,8 @@ class LeagueRepository(BaseRepository):
         :return: List of Leagues
         """
 
-        return []
+        with self.maker() as session:
+            return list(session.scalars(select(League)).all())
 
 
 class TeamLeagueRepository(BaseRepository):
@@ -554,7 +590,16 @@ class TeamLeagueRepository(BaseRepository):
         :param team_league: Team League Entry
         :return: bool
         """
-        return False
+
+        conditions = [
+            (TeamLeague.team_id == team_league.team_id),
+            (TeamLeague.league_id == team_league.league_id),
+            (TeamLeague.year_value == team_league.year_value)
+        ]
+
+        with self.maker() as session:
+            result = session.scalars(select(TeamLeague).where(*conditions)).first()
+            return result is not None
 
     def get_team_leagues(self, **kwargs) -> list[TeamLeague]:
         """
@@ -563,7 +608,17 @@ class TeamLeagueRepository(BaseRepository):
         :keyword league_id: League ID
         :return: List of Team League Entrues
         """
-        return []
+        conditions = []
+        if 'team_id' in kwargs:
+            conditions.append((TeamLeague.team_id == int(kwargs['team_id'])))
+
+        if 'league_id' in kwargs:
+            conditions.append((TeamLeague.league_id == int(kwargs['league_id'])))
+
+        with self.maker() as session:
+            if conditions:
+                return list(session.scalars(select(TeamLeague).where(*conditions)).all())
+            return list(session.scalars(select(TeamLeague)).all())
 
     def get_team_league(self, id_value: int) -> TeamLeague | None:
         """
@@ -571,8 +626,8 @@ class TeamLeagueRepository(BaseRepository):
         :param id_value: Primary ID Value
         :return: Team League or None
         """
-
-        return None
+        with self.maker() as session:
+            return session.scalars(select(TeamLeague).where(TeamLeague.id == id_value)).first()
 
 
 class StatisticCodeRepository(BaseRepository):
@@ -593,7 +648,10 @@ class StatisticCodeRepository(BaseRepository):
         :param code: Statistic Code
         :return: bool
         """
-        return False
+        with self.maker() as session:
+            result = session.scalars(
+                select(StatisticCode).where(StatisticCode.code == code.code)).first()
+            return result is not None
 
     def get_statistic_code(self, **kwargs) -> StatisticCode | None:
         """
@@ -602,6 +660,15 @@ class StatisticCodeRepository(BaseRepository):
         :keyword code: Code Value
         :return: Statistic Code or Noe
         """
+        conditions = []
+        if 'id' in kwargs:
+            conditions = [(StatisticCode.id == int(kwargs['id']))]
+        if 'code' in kwargs:
+            conditions = [(StatisticCode.code == kwargs['code'])]
+
+        if conditions:
+            with self.maker() as session:
+                return session.scalars(select(StatisticCode).where(*conditions)).first()
         return None
 
     def get_statistic_codes(self) -> list[StatisticCode]:
@@ -609,4 +676,5 @@ class StatisticCodeRepository(BaseRepository):
         Retrieves the Statistic Codes.
         :return: List of Statistic Codes
         """
-        return []
+        with self.maker() as session:
+            return list(session.scalars(select(StatisticCode)).all())

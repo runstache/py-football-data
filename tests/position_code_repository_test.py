@@ -89,7 +89,20 @@ def test_get_position_code_not_exist():
     repo.save(position)
 
     result = repo.get_position_code(code='WR')
+    assert_that(result).is_none()
 
+
+def test_get_position_code_no_args():
+    """
+    Tests retrieving the Position code without args
+    """
+    maker = create_maker()
+    repo = PositionCodeRepository(maker)
+
+    position = Position(id=1, code='QB', description='Quarterback')
+    repo.save(position)
+
+    result = repo.get_position_code()
     assert_that(result).is_none()
 
 

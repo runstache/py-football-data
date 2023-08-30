@@ -91,6 +91,22 @@ def test_get_type_code_not_exist():
     assert_that(result).is_none()
 
 
+def test_get_type_code_no_args():
+    """
+    Tests retrieving a Type Code without Args.
+    """
+
+    maker = create_maker()
+    code = TypeCode(id=1, code='TST', description='Test Code')
+    code2 = TypeCode(id=2, code='TST2', description='Test Code 2')
+    repo = TypeCodeRepository(maker)
+    repo.save(code)
+    repo.save(code2)
+
+    result = repo.get_type_code()
+    assert_that(result).is_none()
+
+
 def test_get_type_codes():
     """
     Tests retrieving all type codes.

@@ -9,6 +9,12 @@ sqlalchemy = "*"
 [dev-packages]
 pytest = "*"
 assertpy = "*"
+mypy = "*"
+pylint = "*"
+pycodestyle = "*"
+pyflakes = "*"
+pytest-cov = "*"
+bandit = "*"
 
 [requires]
 python_version = "3.9"
