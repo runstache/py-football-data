@@ -1,2 +1,3 @@
-# py-football-data
-Python Data Models for Football data stats
+# Batch Football Data
+
+Python Data Models for interacting with the Football Stats Database.

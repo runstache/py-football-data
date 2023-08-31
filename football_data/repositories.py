@@ -3,13 +3,13 @@ Data Model Repositories for saving to the Database.
 """
 
 from sqlalchemy import select
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import or_
 
-from models import Base, Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, \
-    Statistic, \
-    StatisticCategory, Schedule, League
+from models import (Base, Player, TeamStaff, TeamLeague, Team, TypeCode,
+                    Position, StatisticCode,
+                    Statistic,
+                    StatisticCategory, Schedule, League)
 
 
 class BaseRepository:
@@ -38,8 +38,6 @@ class BaseRepository:
             session.begin()
             session.add(model)
             session.commit()
-        except SQLAlchemyError as ex:
-            raise ex from None
         finally:
             session.close()
 
@@ -55,8 +53,6 @@ class BaseRepository:
             session.begin()
             session.add_all(items)
             session.commit()
-        except SQLAlchemyError as ex:
-            raise ex from None
         finally:
             session.close()
 
@@ -66,16 +62,9 @@ class PlayerRepository(BaseRepository):
     Repository Implementation for Players.
     """
 
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor
-        :param maker: SQL Alchemy Session Maker.
-        """
-        super().__init__(maker)
-
     def player_exits(self, player: Player) -> bool:
         """
-        Validates a if a player exists in the database or not.
+        Validates if a player exists in the database or not.
         :param player: Player
         :return: Bool
         """
@@ -124,21 +113,14 @@ class PlayerRepository(BaseRepository):
                 result = session.scalars(
                     select(Player).where(Player.position_id == position_id)).all()
                 return result if result else []
-            else:
-                return list(session.scalars(select(Player)).all())
+
+            return list(session.scalars(select(Player)).all())
 
 
 class PositionCodeRepository(BaseRepository):
     """
     Repository for Position Codes.
     """
-
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: SQL Alchemy Session Maker.
-        """
-        super().__init__(maker)
 
     def position_code_exists(self, code: Position) -> bool:
         """
@@ -186,13 +168,6 @@ class ScheduleRepository(BaseRepository):
     """
     Repository for working with Schedule information.
     """
-
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: Sql Alchemy Session Maker.
-        """
-        super().__init__(maker)
 
     def schedule_exists(self, schedule: Schedule) -> bool:
         """
@@ -245,13 +220,6 @@ class StatisticCategoryRepository(BaseRepository):
     Repository for working with Statistic Category Codes.
     """
 
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: Sql Alchemy Session Maker
-        """
-        super().__init__(maker)
-
     def statistic_category_exists(self, category: StatisticCategory) -> bool:
         """
         Checks if a statistic category code already exists.
@@ -295,13 +263,6 @@ class StatisticRepository(BaseRepository):
     """
     Repository for working with Statistic Entries.
     """
-
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: Session Maker.
-        """
-        super().__init__(maker)
 
     def statistic_exists(self, stat: Statistic) -> bool:
         """
@@ -358,13 +319,6 @@ class TeamRepository(BaseRepository):
     Repository for interacting with teams.
     """
 
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: Sql Alchemy Session Maker
-        """
-        super().__init__(maker)
-
     def team_exists(self, team: Team) -> bool:
         """
         Checks if a Team exists in the database.
@@ -417,13 +371,6 @@ class TypeCodeRepository(BaseRepository):
     Repository for interacting with Type Codes.
     """
 
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor
-        :param maker: Sql Alchemy Session Maker.
-        """
-        super().__init__(maker)
-
     def type_code_exists(self, code: TypeCode) -> bool:
         """
         Checks if a Type Code already exists.
@@ -467,13 +414,6 @@ class TeamStaffRepository(BaseRepository):
     Repository for interacting with Team Staff.
     """
 
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: SQL Alchemy session maker.
-        """
-        super().__init__(maker)
-
     def team_staff_exists(self, staff: TeamStaff) -> bool:
         """
         Validates a team staff entry exists.
@@ -502,7 +442,7 @@ class TeamStaffRepository(BaseRepository):
             conditions.append((TeamStaff.team_id == int(kwargs['team_id'])))
 
         if 'player_id' in kwargs:
-            conditions.append((TeamStaff.player_id) == int(kwargs['player_id']))
+            conditions.append((TeamStaff.player_id == int(kwargs['player_id'])))
 
         with self.maker() as session:
             if conditions:
@@ -524,13 +464,6 @@ class LeagueRepository(BaseRepository):
     """
     Repository for interacting with League entries.
     """
-
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: Sql Alchemy Session Maker
-        """
-        super().__init__(maker)
 
     def league_exits(self, league: League) -> bool:
         """
@@ -577,13 +510,6 @@ class TeamLeagueRepository(BaseRepository):
     Repository for interacting with Team League references.
     """
 
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker:  Sql Alchemy Session Maker.
-        """
-        super().__init__(maker)
-
     def team_league_exists(self, team_league: TeamLeague) -> bool:
         """
         Validates Team League entry exists in the Database.
@@ -606,7 +532,7 @@ class TeamLeagueRepository(BaseRepository):
         Retrieves a list of Team Leagues from the database.
         :keyword team_id: Team ID
         :keyword league_id: League ID
-        :return: List of Team League Entrues
+        :return: List of Team League Entries
         """
         conditions = []
         if 'team_id' in kwargs:
@@ -634,13 +560,6 @@ class StatisticCodeRepository(BaseRepository):
     """
     Repository for interacting with Statistic Codes.
     """
-
-    def __init__(self, maker: sessionmaker):
-        """
-        Constructor.
-        :param maker: Sql Alchemy Session Maker.
-        """
-        super().__init__(maker)
 
     def statistic_code_exists(self, code: StatisticCode) -> bool:
         """

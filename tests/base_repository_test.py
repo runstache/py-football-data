@@ -5,11 +5,13 @@ Tests for the Base Repository.
 from assertpy import assert_that
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
 
-from models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, StatisticCode, \
+from models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, \
+    StatisticCode, \
     Statistic, \
     StatisticCategory, Schedule, League
-from repositories import BaseRepository, SQLAlchemyError
+from repositories import BaseRepository
 
 
 def create_maker() -> sessionmaker:

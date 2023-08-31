@@ -1,11 +1,12 @@
 """
 Team Staff Repository Tests.
 """
+from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from models import TeamStaff
 from repositories import TeamStaffRepository
-from assertpy import assert_that
 
 
 def create_maker() -> sessionmaker:

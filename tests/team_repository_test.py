@@ -82,6 +82,7 @@ def test_get_team_not_exists():
     result = repo.get_team(id=3)
     assert_that(result).is_none()
 
+
 def test_get_team_no_args():
     """
     Tests retrieving a Team without Args.

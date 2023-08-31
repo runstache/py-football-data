@@ -6,7 +6,7 @@ from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import StatisticCode
+from models import (StatisticCode)
 from repositories import StatisticCodeRepository
 
 

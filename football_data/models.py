@@ -12,7 +12,6 @@ class Base(MappedAsDataclass, DeclarativeBase):
     """
     Base Class for Data Models.
     """
-    pass
 
 
 class Player(Base):
