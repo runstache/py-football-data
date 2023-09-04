@@ -21,10 +21,11 @@ class Player(Base):
 
     __tablename__ = 'players'
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     url: Mapped[str] = mapped_column(String(255))
     name: Mapped[str] = mapped_column(String(500))
-    position_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=False)
+    position_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=None)
+    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class Position(Base):
@@ -34,9 +35,10 @@ class Position(Base):
 
     __tablename__ = 'position_codes'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     code: Mapped[str] = mapped_column(String(5))
     description: Mapped[str] = mapped_column(String(50))
+    id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class Schedule(Base):
@@ -46,7 +48,6 @@ class Schedule(Base):
 
     __tablename__ = 'schedule'
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     team_id: Mapped[int]
     opponent_id: Mapped[int]
     year_value: Mapped[int]
@@ -55,6 +56,8 @@ class Schedule(Base):
     url: Mapped[str] = mapped_column(String(255))
     type_id: Mapped[int]
     is_home: Mapped[bool]
+    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class StatisticCategory(Base):
@@ -64,9 +67,10 @@ class StatisticCategory(Base):
 
     __tablename__ = 'statistic_categories'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     code: Mapped[str] = mapped_column(String(10))
     description: Mapped[str] = mapped_column(String(50))
+    id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class StatisticCode(Base):
@@ -76,9 +80,10 @@ class StatisticCode(Base):
 
     __tablename__ = 'statistic_codes'
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     code: Mapped[str] = mapped_column(String(15))
     description: Mapped[str] = mapped_column(String(100))
+    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class Statistic(Base):
@@ -88,13 +93,14 @@ class Statistic(Base):
 
     __tablename__ = 'statistics'
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     statistic_code_id: Mapped[int] = mapped_column(BigInteger)
     schedule_id: Mapped[int] = mapped_column(BigInteger)
     value: Mapped[float] = mapped_column(REAL)
     category_id: Mapped[int]
     player_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=None)
     team_id: Mapped[Optional[int]] = mapped_column(Integer, default=None)
+    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class Team(Base):
@@ -104,10 +110,11 @@ class Team(Base):
 
     __tablename__ = 'team'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     url: Mapped[str] = mapped_column(String(255))
     code: Mapped[str] = mapped_column(String(5))
     name: Mapped[str] = mapped_column(String(100))
+    id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class TypeCode(Base):
@@ -117,9 +124,10 @@ class TypeCode(Base):
 
     __tablename__ = 'type_codes'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     code: Mapped[str] = mapped_column(String(10))
     description: Mapped[str] = mapped_column(String(50))
+    id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class TeamStaff(Base):
@@ -129,10 +137,11 @@ class TeamStaff(Base):
 
     __tablename__ = 'team_staff'
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     player_id: Mapped[int] = mapped_column(BigInteger)
     team_id: Mapped[int] = mapped_column(Integer)
     year_value: Mapped[int] = mapped_column(Integer)
+    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+                                              default=None)
 
 
 class League(Base):
@@ -142,9 +151,9 @@ class League(Base):
 
     __tablename__ = 'leages'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
     code: Mapped[str] = mapped_column(String(10))
     description: Mapped[str] = mapped_column(String(100))
+    id: Mapped[Optional[int]] = mapped_column(Integer, primary_key=True, default=None)
 
 
 class TeamLeague(Base):
@@ -154,7 +163,8 @@ class TeamLeague(Base):
 
     __tablename__ = 'team_leagues'
 
-    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     team_id: Mapped[int] = mapped_column(Integer)
     league_id: Mapped[int] = mapped_column(Integer)
     year_value: Mapped[int] = mapped_column(Integer)
+    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+                                              default=None)

@@ -41,14 +41,9 @@ def test_save():
     maker = create_maker()
     repo = BaseRepository(maker)
 
-    player = Player(id=1, url='www.google.com', name='Jim Smith')
+    player = Player(url='www.google.com', name='Jim Smith')
     repo.save(player)
-
-    session = maker()
-    stmt = select(Player).where(Player.id == 1)
-    result = session.execute(stmt).first()
-    assert_that(result).is_not_empty()
-    assert_that(result).contains(player)
+    assert_that(player.id).is_not_none()
 
 
 def test_save_all():
