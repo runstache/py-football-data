@@ -5,7 +5,7 @@ Football Data Models.
 from typing import Optional
 
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column
-from sqlalchemy.types import BigInteger, String, Integer, Boolean, REAL
+from sqlalchemy.types import BigInteger, String, Integer, REAL
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
