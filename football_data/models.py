@@ -84,6 +84,7 @@ class StatisticCode(Base):
 
     code: Mapped[str] = mapped_column(String(15))
     description: Mapped[str] = mapped_column(String(100))
+    grouping: Mapped[Optional[str]] = mapped_column(String(100), default=None)
     id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
                                               primary_key=True, autoincrement=True,
                                               default=None)

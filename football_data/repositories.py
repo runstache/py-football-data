@@ -593,10 +593,16 @@ class StatisticCodeRepository(BaseRepository):
                 return session.scalars(select(StatisticCode).where(*conditions)).first()
         return None
 
-    def get_statistic_codes(self) -> list[StatisticCode]:
+    def get_statistic_codes(self, **kwargs) -> list[StatisticCode]:
         """
         Retrieves the Statistic Codes.
+        :keyword grouping: Code Grouping Value.
         :return: List of Statistic Codes
         """
+
+        if 'grouping' in kwargs:
+            stmt = select(StatisticCode).where((StatisticCode.grouping == kwargs['grouping']))
+        else:
+            stmt = select(StatisticCode)
         with self.maker() as session:
-            return list(session.scalars(select(StatisticCode)).all())
+            return list(session.scalars(stmt).all())

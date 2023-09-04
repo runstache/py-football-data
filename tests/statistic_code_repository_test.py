@@ -126,3 +126,17 @@ def test_get_statistic_codes():
 
     result = repo.get_statistic_codes()
     assert_that(result).contains_only(code, code2)
+
+def test_get_statistic_codes_by_grouping():
+    """
+    Tests retrieving the statistic codes by grouping
+    """
+    maker = create_maker()
+    code = StatisticCode(id=1, code='TST', description='Test Code', grouping='rushing')
+    code2 = StatisticCode(id=2, code='TST2', description='Test Code2', grouping='passing')
+    repo = StatisticCodeRepository(maker)
+    repo.save(code)
+    repo.save(code2)
+
+    result = repo.get_statistic_codes(grouping='passing')
+    assert_that(result).is_not_empty().contains_only(code2)
