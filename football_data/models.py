@@ -24,7 +24,8 @@ class Player(Base):
     url: Mapped[str] = mapped_column(String(255))
     name: Mapped[str] = mapped_column(String(500))
     position_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=None)
-    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+    id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
+                                              primary_key=True, autoincrement=True,
                                               default=None)
 
 
@@ -56,7 +57,8 @@ class Schedule(Base):
     url: Mapped[str] = mapped_column(String(255))
     type_id: Mapped[int]
     is_home: Mapped[bool]
-    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+    id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
+                                              primary_key=True, autoincrement=True,
                                               default=None)
 
 
@@ -82,7 +84,8 @@ class StatisticCode(Base):
 
     code: Mapped[str] = mapped_column(String(15))
     description: Mapped[str] = mapped_column(String(100))
-    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+    id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
+                                              primary_key=True, autoincrement=True,
                                               default=None)
 
 
@@ -99,7 +102,8 @@ class Statistic(Base):
     category_id: Mapped[int]
     player_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=None)
     team_id: Mapped[Optional[int]] = mapped_column(Integer, default=None)
-    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+    id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
+                                              primary_key=True, autoincrement=True,
                                               default=None)
 
 
@@ -140,7 +144,8 @@ class TeamStaff(Base):
     player_id: Mapped[int] = mapped_column(BigInteger)
     team_id: Mapped[int] = mapped_column(Integer)
     year_value: Mapped[int] = mapped_column(Integer)
-    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+    id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
+                                              primary_key=True, autoincrement=True,
                                               default=None)
 
 
@@ -166,5 +171,6 @@ class TeamLeague(Base):
     team_id: Mapped[int] = mapped_column(Integer)
     league_id: Mapped[int] = mapped_column(Integer)
     year_value: Mapped[int] = mapped_column(Integer)
-    id: Mapped[Optional[int]] = mapped_column(BigInteger, primary_key=True, autoincrement=True,
+    id: Mapped[Optional[int]] = mapped_column(BigInteger().with_variant(Integer, 'sqlite'),
+                                              primary_key=True, autoincrement=True,
                                               default=None)

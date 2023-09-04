@@ -45,6 +45,10 @@ def test_save():
     repo.save(player)
     assert_that(player.id).is_not_none()
 
+    session = maker()
+    result = list(session.scalars(select(Player)).all())
+    assert_that(result).is_not_empty()
+
 
 def test_save_all():
     """
