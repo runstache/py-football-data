@@ -24,7 +24,7 @@ class Player(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     url: Mapped[str] = mapped_column(String(255))
     name: Mapped[str] = mapped_column(String(500))
-    position_id: Mapped[Optional[int]] = mapped_column(Boolean, default=False)
+    position_id: Mapped[Optional[int]] = mapped_column(BigInteger, default=False)
 
 
 class Position(Base):
