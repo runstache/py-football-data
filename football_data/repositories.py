@@ -6,10 +6,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.expression import or_
 
-from models import (Base, Player, TeamStaff, TeamLeague, Team, TypeCode,
-                    Position, StatisticCode,
-                    Statistic,
-                    StatisticCategory, Schedule, League)
+from football_data.models import (Base, Player, TeamStaff, TeamLeague, Team, TypeCode,
+                                  Position, StatisticCode,
+                                  Statistic,
+                                  StatisticCategory, Schedule, League)
 
 
 class BaseRepository:
@@ -365,7 +365,7 @@ class TeamRepository(BaseRepository):
 
         if criteria:
             with self.maker() as session:
-                return session.scalars(select(Team).where(* criteria)).first()
+                return session.scalars(select(Team).where(*criteria)).first()
         return None
 
 

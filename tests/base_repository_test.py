@@ -7,11 +7,11 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 
-from models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, \
+from football_data.models import Player, TeamStaff, TeamLeague, Team, TypeCode, Position, \
     StatisticCode, \
     Statistic, \
     StatisticCategory, Schedule, League
-from repositories import BaseRepository
+from football_data.repositories import BaseRepository
 
 
 def create_maker() -> sessionmaker:

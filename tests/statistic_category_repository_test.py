@@ -6,8 +6,8 @@ from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import StatisticCategory
-from repositories import StatisticCategoryRepository
+from football_data.models import StatisticCategory
+from football_data.repositories import StatisticCategoryRepository
 
 
 def create_maker():

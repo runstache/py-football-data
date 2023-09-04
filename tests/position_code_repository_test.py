@@ -6,8 +6,8 @@ from assertpy import assert_that
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Position
-from repositories import PositionCodeRepository
+from football_data.models import Position
+from football_data.repositories import PositionCodeRepository
 
 
 def create_maker() -> sessionmaker:
