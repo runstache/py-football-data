@@ -145,3 +145,19 @@ def test_get_teams():
 
     result = repo.get_teams()
     assert_that(result).is_not_empty().contains_only(team, team2)
+
+
+def test_get_team_by_name():
+    """
+    Tests retrieving the team by the name.
+    """
+
+    maker = create_maker()
+    team = Team(id=1, url='www.google.com', code='KC', name='Kansas City Chiefs')
+    team2 = Team(id=2, url='www.team.com', code='LAR', name='Los Angeles Rams')
+    repo = TeamRepository(maker)
+    repo.save(team)
+    repo.save(team2)
+
+    result = repo.get_team(name='Los Angeles Rams')
+    assert_that(result).is_equal_to(team2)

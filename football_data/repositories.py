@@ -348,6 +348,7 @@ class TeamRepository(BaseRepository):
         :keyword id: ID Value
         :keyword code: Team Code
         :keyword url: Team Url
+        :keyword name: Team Name
         :return: Team or None
         """
 
@@ -359,10 +360,12 @@ class TeamRepository(BaseRepository):
             criteria = [(Team.url == kwargs['url'])]
         if 'id' in kwargs:
             criteria = [(Team.id == kwargs['id'])]
+        if 'name' in kwargs:
+            criteria = [(Team.name == kwargs['name'])]
 
         if criteria:
             with self.maker() as session:
-                return session.scalars(select(Team).where(or_(False, *criteria))).first()
+                return session.scalars(select(Team).where(* criteria)).first()
         return None
 
 
