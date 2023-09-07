@@ -185,15 +185,27 @@ class ScheduleRepository(BaseRepository):
                 Schedule.type_id == schedule.type_id)).first()
             return result is not None
 
-    def get_schedule(self, id_value: int) -> Schedule | None:
+    def get_schedule(self, **kwargs) -> Schedule | None:
         """
         Returns the Schedule by id value.
-        :param id_value: Schedule ID Value.
+        :keyword id: Schedule ID Value.
+        :keyword team id: Team ID
+        :keyword game_id: Game ID
         :return: Schedule
         """
 
-        with self.maker() as session:
-            return session.scalars(select(Schedule).where(Schedule.id == id_value)).first()
+        conditions = []
+        if 'id' in kwargs:
+            conditions.append((Schedule.id == int(kwargs['id'])))
+        else:
+            if 'team_id' in kwargs and 'game_id' in kwargs:
+                conditions = [(Schedule.team_id == int(kwargs['team_id'])),
+                              (Schedule.game_id == int(kwargs['game_id']))]
+
+        if conditions:
+            with self.maker() as session:
+                return session.scalars(select(Schedule).where(*conditions)).first()
+        return None
 
     def get_schedules(self, **kwargs) -> list[Schedule]:
         """

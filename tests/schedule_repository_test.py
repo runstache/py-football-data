@@ -62,7 +62,7 @@ def test_get_schedule():
     repo = ScheduleRepository(maker)
     repo.save(schedule)
 
-    result = repo.get_schedule(1)
+    result = repo.get_schedule(id=1)
     assert_that(result).is_equal_to(schedule)
 
 
@@ -77,7 +77,42 @@ def test_get_schedule_not_exists():
     repo = ScheduleRepository(maker)
     repo.save(schedule)
 
-    result = repo.get_schedule(2)
+    result = repo.get_schedule(id=2)
+    assert_that(result).is_none()
+
+
+def test_get_schedule_team_game_id():
+    """
+    Tests retrieving a Schedule by Team and Game ID
+    """
+    maker = create_maker()
+    schedule = Schedule(team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
+                        url='www.google.com', type_id=1, is_home=True)
+    schedule2 = Schedule(team_id=2, opponent_id=1, year_value=2020, week_number=3,
+                         game_id=665566,
+                         url='www.google.com', type_id=1, is_home=False)
+    repo = ScheduleRepository(maker)
+    repo.save(schedule)
+    repo.save(schedule2)
+    result = repo.get_schedule(team_id=1, game_id=665566)
+    assert_that(result).is_not_none()
+
+    assert_that([result]).extracting('id', 'opponent_id', 'type_id').contains((1, 2, 1))
+
+
+def test_get_schedule_no_params():
+    """
+    Tests retrieving a Schedule without Parameters
+    """
+    maker = create_maker()
+    schedule = Schedule(team_id=1, opponent_id=2, year_value=2020, week_number=3,
+                        game_id=665566,
+                        url='www.google.com', type_id=1, is_home=True)
+    repo = ScheduleRepository(maker)
+    repo.save(schedule)
+
+    result = repo.get_schedule()
     assert_that(result).is_none()
 
 
