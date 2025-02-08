@@ -52,6 +52,8 @@ jobs:
     environment:
       name: testpypi
       url: https://test.pypi.org/legacy/batch-football-data
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - name: Setup Python
@@ -65,6 +67,3 @@ jobs:
     # retrieve your distributions here
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.TEST_PY_PI }}
-          repository-url: https://test.pypi.org/legacy/

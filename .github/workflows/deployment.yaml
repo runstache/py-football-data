@@ -9,6 +9,8 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/batch-football-data
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - name: Setup Python
@@ -21,5 +23,3 @@ jobs:
         run: python -m build
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PY_PI }}
