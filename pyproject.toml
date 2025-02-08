@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "batch-football-data"
-version = "0.0.8"
+version = "0.0.9"
 authors = [{name = "runstache"}]
 description = "Data Access Library for interacting with the FB Stats Postgres Database."
 readme = "README.md"
