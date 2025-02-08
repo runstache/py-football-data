@@ -32,17 +32,17 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-groups
       - name: Run MyPy
-        run: uv run mypy src/ --ignore-missing-imports
+        run: uv run mypy football_data/ --ignore-missing-imports
       - name: Run Flake8
-        run: uv run flake8 src/ --max-line-length 100
+        run: uv run flake8 football_data/ --max-line-length 100
       - name: Run Pyflakes
-        run: uv run pyflakes src/
+        run: uv run pyflakes football_data/
       - name: Run PyCodeStyle
-        run: uv run pycodestyle src/ --max-line-length 100
+        run: uv run pycodestyle football_data/ --max-line-length 100
       - name: Run Pylint
-        run: uv run pylint src/
+        run: uv run pylint football_data/
       - name: Run Bandit
-        run: uv run bandit -r src/ -c ./pyproject.toml
+        run: uv run bandit -r football_data/ -c ./pyproject.toml
     needs:
       - test
   test_deploy:
